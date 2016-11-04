@@ -1,0 +1,31 @@
+﻿<!doctype html>
+<html ng-app="a4_3">
+<head>
+    <title>推断式注入</title>
+    <script src="../Script/angular.min.js"
+            type="text/javascript"></script>
+</head>
+<body>
+    <div ng-controller="c4_3">
+        <input id="btnAlert" type="button" value="弹出对话框"
+               ng-click="onClick('我是一个弹出对话框')" />
+    </div>
+    <script type="text/javascript">
+        var a4_3 = angular.module('a4_3', [])
+            .factory('$show', function ($window) {
+                return {
+                    show: function (text) {
+                        $window.alert(text);
+                    }
+                };
+            });
+            //在注入服务过程中，没有使用[]或进行标记式的声明，因此，注入器通过参数的名称来推断依赖服务与控制器的关系。
+        var c4_3 = function ($scope, $show) {
+            $scope.onClick = function (msg) {
+                $show.show(msg);
+            }
+        }
+        a4_3.controller('c4_3', c4_3);
+    </script>
+</body>
+</html>
